@@ -1,10 +1,13 @@
 import "./styles.css";
+import Index from "./components/notes";
 
 export default function App() {
   return (
     <div className="App">
-      <h1>Hello CodeSandbox</h1>
-      <h2>Start editing to see some magic happen!</h2>
+      <h1>Use Reducer</h1>
+      <div className="container">
+        <Index />
+      </div>
     </div>
   );
 }
