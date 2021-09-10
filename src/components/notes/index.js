@@ -1,38 +1,33 @@
 import React, { useState, useReducer } from "react";
 import Modal from "./Modal";
+import reducer from "../reducer";
 
 const Index = () => {
   const defaultState = {
     note: "",
-    notes: []
+    notes: [],
+    modal_msg: ""
   };
-  const reducer = (state, action) => {
-    console.log(action);
-    if (action.type === "ADD_NOTE") {
-      return { ...state, notes: [...state.notes, action.payload] };
-    }
-    return state;
-  };
+
   const [note, SetNote] = useState("");
   //const [notes, SetNotes] = useState([]);
   const [state, Dispatch] = useReducer(reducer, defaultState);
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(note);
+    //console.log(note);
     Dispatch({ type: "ADD_NOTE", payload: note });
-    // SetNotes([
-    //   ...notes,
-    //   {
-    //     id: new Date().getTime().toString(),
-    //     date: new Date().toString(),
-    //     note
-    //   }
-    // ]);
-    // SetNote("");
+    SetNote("");
+  };
+  const handleRemove = (id) => {
+    Dispatch({ type: "REMOVE_ITEM", payload: id });
+  };
+  const closeModal = () => {
+    Dispatch({ type: "CLOSE_MODAL" });
   };
   return (
     <>
-      <Modal />
+      <Modal text={state.modal_msg} closeModal={closeModal} />
       <form onSubmit={handleSubmit}>
         <div>
           {" "}
@@ -54,7 +49,7 @@ const Index = () => {
               <p>
                 {" "}
                 <b>{note.note}</b> {note.date}
-                <button>Remove</button>
+                <button onClick={() => handleRemove(note.id)}>Remove</button>
               </p>
             </article>
           </div>
